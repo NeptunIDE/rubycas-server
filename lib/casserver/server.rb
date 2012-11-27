@@ -148,6 +148,7 @@ module CASServer
       init_database!
       init_logger!
       init_authenticators!
+      init_loggers!
     end
 
     def self.handler_options
@@ -244,6 +245,37 @@ module CASServer
 
       set :auth, auth
     end
+    
+    def self.init_loggers!
+      loggers = []
+      
+      return if config[:logger].nil?
+        
+      begin
+        config[:logger].each { |logger| loggers << logger[:class].constantize }
+      rescue NameError
+        config[:logger].each do |logger|
+          if !logger[:source].nil?
+            # config.yml explicitly names source file
+            require logger[:source]
+          else
+            # the logger class hasn't yet been loaded, so lets try to load it from the casserver/loggers directory
+            logger_rb = logger[:class].underscore.gsub('cas_server/', '')
+            require 'casserver/'+logger_rb
+          end
+          loggers << logger[:class].constantize
+        end
+      end
+      
+      loggers.zip(config[:logger]).each_with_index do |logger_conf, index|
+        logger, conf = logger_conf
+        $LOG.debug "About to setup #{logger} with #{conf.inspect}..."
+        logger.setup(conf.merge('index' => index)) if logger.respond_to?(:setup)
+        $LOG.debug "Done setting up #{logger}."
+      end
+      
+      set :loggers, loggers
+    end
 
     def self.init_logger!
       if config[:log]
@@ -286,6 +318,7 @@ module CASServer
       init_logger!
       init_database!
       init_authenticators!
+      init_loggers!
     end
 
     before do
@@ -467,6 +500,10 @@ module CASServer
           $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
 
+          settings.loggers.each do |logger|
+            logger.login(:username => @username, :service => @service, :extra_attributes => extra_attributes, :request => @env)
+          end
+          
           # 3.6 (ticket-granting cookie)
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
           response.set_cookie('tgt', tgt.to_s)
@@ -555,6 +592,10 @@ module CASServer
           tgt.destroy
         end
 
+        settings.loggers.each do |logger|
+          logger.logout(:username => tgt.username, :extra_attributes => tgt.extra_attributes, :request => @env)
+        end
+        
         $LOG.info("User '#{tgt.username}' logged out.")
       else
         $LOG.warn("User tried to log out without a valid ticket-granting ticket.")

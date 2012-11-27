@@ -538,3 +538,29 @@ log:
 # convert this to "jsmith".
 
 #downcase_username: true
+
+
+##### SIGN IN & SIGN OUT LOGGING ################################################
+
+logger:
+  - 
+    class: CASServer::Loggers::SQL
+    database: 
+      adapter: mysql
+      database: logins
+      username: root
+      password: 
+      host: localhost
+    signins_table_name: logins
+    signouts_table_name: logouts
+  -
+    class: CASServer::Loggers::SQLUpdater
+    database: 
+      adapter: mysql
+      database: logins
+      username: root
+      password: 
+      host: localhost
+    table_name: users
+    username_column: username
+    lastlogin_column: lastlogin
