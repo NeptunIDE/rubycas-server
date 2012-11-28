@@ -721,9 +721,9 @@ module CASServer
             if File.fnmatch(wl_service["match"], @service)
               matched = true
               
-              result_attributes = @extra_attributes.selct do |attribute, value|
+              matched_attributes = @extra_attributes.select do |attribute, value|
                 wl_service["extra_attributes"].include? attribute
-              end
+              end unless wl_service["extra_attributes"].nil?
             end
           end
           
@@ -788,9 +788,9 @@ module CASServer
             if File.fnmatch(wl_service["match"], @service)
               matched = true
               
-              result_attributes = @extra_attributes.selct do |attribute, value|
+              matched_attributes = @extra_attributes.select do |attribute, value|
                 wl_service["extra_attributes"].include? attribute
-              end
+              end unless wl_service["extra_attributes"].nil?
             end
           end
           
