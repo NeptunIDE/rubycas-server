@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS `logins` DEFAULT CHARACTER SET utf8 COLLATE utf8_pol
 CREATE  TABLE IF NOT EXISTS `logins`.`logins` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `username` VARCHAR(255) NOT NULL ,
-  `user_id` CHAR(36) NOT NULL ,
+  `user_id` CHAR(36) NULL ,
   `service` VARCHAR(255) NOT NULL ,
   `domain` VARCHAR(255) NOT NULL ,
   `timestamp` DATETIME NOT NULL ,
