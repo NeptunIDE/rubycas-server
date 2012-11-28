@@ -564,3 +564,19 @@ logger:
     table_name: users
     username_column: username
     lastlogin_column: lastlogin
+    
+    
+    
+##### SERVICE WHITELISTING & EXTRA ATTRIBUTES FILTERING ##########################
+
+service_whitelist: true
+
+services:
+  -
+    match: *.example.com
+    extra_attributes:
+  -
+    match: special.example.com
+    extra_attributes:
+      - user_id
+      - account_balance

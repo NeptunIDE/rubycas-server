@@ -364,6 +364,23 @@ module CASServer
 
       begin
         if @service
+          if settings.service_whitelist
+            matched = false
+            
+            settings.services.each do |wl_service|
+              if File.fnmatch(wl_service.match, @service)
+                matched = true
+              end
+            end
+            
+            if not matched
+              $LOG.info("Service '#{@service}' not in whitelist, aborting")
+              
+              status 500
+              return
+            end
+          end
+          
           if @renew
             $LOG.info("Authentication renew explicitly requested. Proceeding with CAS login for service #{@service.inspect}.")
           elsif tgt && !tgt_error
@@ -691,6 +708,30 @@ module CASServer
           @pgtiou = pgt.iou if pgt
         end
         @extra_attributes = st.granted_by_tgt.extra_attributes || {}
+          
+        if settings.service_whitelist
+          matched = false
+          matched_attributes = {}
+          
+          settings.services.each do |wl_service|
+            if File.fnmatch(wl_service.match, @service)
+              matched = true
+              
+              result_attributes = @extra_attributes.selct do |attribute, value|
+                wl_service.extra_attributes.include? attribute
+              end
+            end
+          end
+          
+          if not matched
+            $LOG.info("Service '#{@service}' not in whitelist, aborting")
+            
+            status 500
+            return
+          end
+          
+          @extra_attributes = matched_attributes
+        end
       end
 
       status response_status_from_error(@error) if @error
@@ -734,6 +775,30 @@ module CASServer
         end
 
         @extra_attributes = t.granted_by_tgt.extra_attributes || {}
+        
+        if settings.service_whitelist
+          matched = false
+          matched_attributes = {}
+          
+          settings.services.each do |wl_service|
+            if File.fnmatch(wl_service.match, @service)
+              matched = true
+              
+              result_attributes = @extra_attributes.selct do |attribute, value|
+                wl_service.extra_attributes.include? attribute
+              end
+            end
+          end
+          
+          if not matched
+            $LOG.info("Service '#{@service}' not in whitelist, aborting")
+            
+            status 500
+            return
+          end
+          
+          @extra_attributes = matched_attributes
+        end  
       end
 
       status response_status_from_error(@error) if @error
