@@ -490,7 +490,9 @@ module CASServer
           $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
 
-          settings.loggers.each do |logger|
+          settings.loggers.each do |logger_class|
+            logger = logger_class.new
+            
             logger.login(:username => @username, :service => @service, :extra_attributes => extra_attributes, :request => @env)
           end
           
@@ -582,7 +584,9 @@ module CASServer
           tgt.destroy
         end
 
-        settings.loggers.each do |logger|
+        settings.loggers.each do |logger_class|
+          logger = logger_class.new
+          
           logger.logout(:username => tgt.username, :extra_attributes => tgt.extra_attributes, :request => @env)
         end
         
