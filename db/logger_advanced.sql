@@ -12,7 +12,7 @@ CREATE  TABLE IF NOT EXISTS `logins`.`logins` (
   `referer` TEXT NOT NULL ,
   `accepted_languages` TEXT NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 CREATE  TABLE IF NOT EXISTS `logins`.`logouts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
