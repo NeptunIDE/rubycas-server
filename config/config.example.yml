@@ -546,7 +546,7 @@ logger:
   - 
     class: CASServer::Loggers::SQL
     database: 
-      adapter: mysql
+      adapter: mysql2
       database: logins
       username: root
       password: 
@@ -556,7 +556,7 @@ logger:
   -
     class: CASServer::Loggers::SQLUpdater
     database: 
-      adapter: mysql
+      adapter: mysql2
       database: logins
       username: root
       password: 
