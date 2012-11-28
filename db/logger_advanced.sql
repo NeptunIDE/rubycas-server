@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS `logins` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci ;
 
-CREATE  TABLE IF NOT EXISTS `logger_advanced`.`logins` (
+CREATE  TABLE IF NOT EXISTS `logins`.`logins` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `username` VARCHAR(255) NOT NULL ,
   `user_id` CHAR(36) NOT NULL ,
@@ -14,7 +14,7 @@ CREATE  TABLE IF NOT EXISTS `logger_advanced`.`logins` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 
-CREATE  TABLE IF NOT EXISTS `logger_advanced`.`logouts` (
+CREATE  TABLE IF NOT EXISTS `logins`.`logouts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `username` VARCHAR(255) NOT NULL ,
   `timestamp` DATETIME NOT NULL ,
