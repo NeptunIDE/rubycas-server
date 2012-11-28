@@ -18,6 +18,7 @@ class CASServer::Loggers::SQLAdvanced < CASServer::Loggers::SQL
       record = signin_model.new
       
       record.username = @username
+      record.user_id = @extra_attributes["id"]
       record.service = @service
       record.timestamp = DateTime.now
       
