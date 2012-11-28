@@ -39,12 +39,21 @@ class CASServer::Loggers::SQL < CASServer::Loggers::Base
     @signout_model.inheritance_column = 'no_inheritance_column' if options[:ignore_type_column]
   end
   
+  def self.signout_model
+    @signout_model
+  end
+  
+  
+  def self.signin_model
+    @signin_model
+  end
+  
   def login(user)
     @username = user[:username]
     @extra_attributes = user[:extra_attributes]
     @service = user[:service]
     
-    record = @signin_model.new
+    record = signin_model.new
     
     record.username = @username
     record.service = @service
@@ -57,7 +66,7 @@ class CASServer::Loggers::SQL < CASServer::Loggers::Base
     @username = user[:username]
     @extra_attributes = user[:extra_attributes]
    
-    record = @signout_model.new
+    record = signout_model.new
    
     record.username = @username
     record.timestamp = DateTime.now
