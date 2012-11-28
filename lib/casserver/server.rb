@@ -365,6 +365,8 @@ module CASServer
       begin
         if @service
           if settings.config[:service_whitelist]
+            $LOG.debug("Service whitelisting enforced, validating service against whitelist")
+            
             matched = false
             
             settings.config[:services].each do |wl_service|
@@ -379,6 +381,8 @@ module CASServer
               status 500
               return
             end
+          else
+            $LOG.debug("Service whitelisting disabled")
           end
           
           if @renew
