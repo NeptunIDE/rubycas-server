@@ -370,7 +370,7 @@ module CASServer
             matched = false
             
             settings.config[:services].each do |wl_service|
-              if File.fnmatch(wl_service.match, @service)
+              if File.fnmatch(wl_service["match"], @service)
                 matched = true
               end
             end
@@ -718,11 +718,11 @@ module CASServer
           matched_attributes = {}
           
           settings.config[:services].each do |wl_service|
-            if File.fnmatch(wl_service.match, @service)
+            if File.fnmatch(wl_service["match"], @service)
               matched = true
               
               result_attributes = @extra_attributes.selct do |attribute, value|
-                wl_service.extra_attributes.include? attribute
+                wl_service["extra_attributes"].include? attribute
               end
             end
           end
@@ -785,11 +785,11 @@ module CASServer
           matched_attributes = {}
           
           settings.config[:services].each do |wl_service|
-            if File.fnmatch(wl_service.match, @service)
+            if File.fnmatch(wl_service["match"], @service)
               matched = true
               
               result_attributes = @extra_attributes.selct do |attribute, value|
-                wl_service.extra_attributes.include? attribute
+                wl_service["extra_attributes"].include? attribute
               end
             end
           end
