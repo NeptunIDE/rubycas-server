@@ -724,7 +724,7 @@ module CASServer
               $LOG.debug("Service '#{t.service}' allowed exttra attributes: "+wl_service["extra_attributes"].to_s)
               
               matched_attributes = @extra_attributes.select do |attribute, value|
-                wl_service["extra_attributes"].include? attribute
+                wl_service["extra_attributes"].include? attribute.to_s
               end unless wl_service["extra_attributes"].nil?
             end
           end
@@ -793,7 +793,7 @@ module CASServer
               $LOG.debug("Service '#{t.service}' allowed exttra attributes: "+wl_service["extra_attributes"].to_s)
               
               matched_attributes = @extra_attributes.select do |attribute, value|
-                wl_service["extra_attributes"].include? attribute
+                wl_service["extra_attributes"].include? attribute.to_s
               end unless wl_service["extra_attributes"].nil?
             end
           end
