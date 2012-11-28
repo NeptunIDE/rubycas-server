@@ -364,10 +364,10 @@ module CASServer
 
       begin
         if @service
-          if settings.service_whitelist
+          if settings.config[:service_whitelist]
             matched = false
             
-            settings.services.each do |wl_service|
+            settings.config[:services].each do |wl_service|
               if File.fnmatch(wl_service.match, @service)
                 matched = true
               end
@@ -709,11 +709,11 @@ module CASServer
         end
         @extra_attributes = st.granted_by_tgt.extra_attributes || {}
           
-        if settings.service_whitelist
+        if settings.config[:service_whitelist]
           matched = false
           matched_attributes = {}
           
-          settings.services.each do |wl_service|
+          settings.config[:services].each do |wl_service|
             if File.fnmatch(wl_service.match, @service)
               matched = true
               
@@ -776,11 +776,11 @@ module CASServer
 
         @extra_attributes = t.granted_by_tgt.extra_attributes || {}
         
-        if settings.service_whitelist
+        if settings.config[:service_whitelist]
           matched = false
           matched_attributes = {}
           
-          settings.services.each do |wl_service|
+          settings.config[:services].each do |wl_service|
             if File.fnmatch(wl_service.match, @service)
               matched = true
               
