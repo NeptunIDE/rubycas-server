@@ -573,10 +573,9 @@ service_whitelist: true
 
 services:
   -
-    match: *.example.com
-    extra_attributes:
+    match: http://*.example.com/*
   -
-    match: special.example.com
+    match: http://special.example.com/index.php
     extra_attributes:
       - user_id
       - account_balance
