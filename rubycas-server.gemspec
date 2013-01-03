@@ -61,7 +61,6 @@ For more information on RubyCAS-Server, see http://code.google.com/p/rubycas-ser
   s.add_development_dependency("activeresource", ">= 2.3.12", "< 4.0")
 
   s.add_development_dependency("mysql2")
-  s.add_development_dependency("activerecord-mysql2-adapter")
 
 
   s.rdoc_options = [
