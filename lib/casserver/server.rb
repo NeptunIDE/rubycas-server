@@ -718,7 +718,7 @@ module CASServer
           matched_attributes = {}
           
           settings.config[:services].each do |wl_service|
-            if File.fnmatch(wl_service["match"], t.service)
+            if File.fnmatch(wl_service["match"], st.service)
               matched = true
               
               $LOG.debug("Service '#{t.service}' allowed exttra attributes: "+wl_service["extra_attributes"].to_s)
@@ -730,7 +730,7 @@ module CASServer
           end
           
           if not matched
-            $LOG.info("Service '#{t.service}' not in whitelist, aborting")
+            $LOG.info("Service '#{st.service}' not in whitelist, aborting")
             
             status 500
             return
