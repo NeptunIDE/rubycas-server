@@ -51,7 +51,7 @@ class CASServer::Loggers::SQL < CASServer::Loggers::Base
     self.class.signin_model
   end
   
-  def signouts_model
+  def signout_model
     self.class.signout_model
   end
   
