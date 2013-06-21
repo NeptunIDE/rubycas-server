@@ -23,6 +23,8 @@ class CASServer::Loggers::SQLAdvanced < CASServer::Loggers::SQL
       record.timestamp = DateTime.now
       
       record.domain = @request["HTTP_HOST"]
+
+	record.client = @request["HTTP_HOST"].split('.')[0]
       
       record.ip = @request["REMOTE_ADDR"]
       record.real_ip = record.ip
